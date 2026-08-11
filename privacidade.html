@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Política de Privacidade — Neon Raiders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#08070f;
+    --panel:#12101f;
+    --panel-line:#2a2440;
+    --magenta:#ff2d78;
+    --cyan:#35e8ff;
+    --amber:#ffb020;
+    --text:#e8e6f5;
+    --dim:#8b87a8;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--void); color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.6;
+  }
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  .display{font-family:'Rajdhani', sans-serif; font-weight:700;}
+
+  header{
+    border-bottom:1px solid var(--panel-line);
+    padding:22px 24px;
+    display:flex; align-items:center; justify-content:space-between;
+    max-width:820px; margin:0 auto;
+  }
+  header a.back{
+    color:var(--cyan); text-decoration:none; font-size:13px; font-family:'IBM Plex Mono', monospace;
+    display:flex; align-items:center; gap:6px;
+  }
+  header .brand{font-family:'Rajdhani', sans-serif; font-weight:700; letter-spacing:0.05em; font-size:15px; text-transform:uppercase; color:var(--dim);}
+
+  main{max-width:820px; margin:0 auto; padding:56px 24px 100px;}
+
+  .eyebrow{font-size:12px; letter-spacing:0.35em; color:var(--magenta); text-transform:uppercase; margin-bottom:14px;}
+  h1{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:clamp(32px,6vw,48px); text-transform:uppercase; margin-bottom:8px;}
+  .updated{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--dim); margin-bottom:48px;}
+
+  .toc{
+    background:var(--panel); border:1px solid var(--panel-line);
+    padding:20px 22px; margin-bottom:56px;
+  }
+  .toc .tag{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--cyan); letter-spacing:0.15em; margin-bottom:12px; display:block;}
+  .toc ol{list-style:none; display:grid; gap:8px;}
+  .toc a{color:var(--text); text-decoration:none; font-size:14px;}
+  .toc a:hover{color:var(--cyan);}
+  .toc .n{color:var(--dim); font-family:'IBM Plex Mono',monospace; margin-right:8px;}
+
+  section{margin-bottom:44px; scroll-margin-top:24px;}
+  section h2{
+    font-family:'Rajdhani',sans-serif; font-weight:700; font-size:22px;
+    text-transform:uppercase; margin-bottom:14px;
+    padding-left:14px; border-left:3px solid var(--magenta);
+  }
+  section p, section li{font-size:15px; color:var(--dim);}
+  section p{margin-bottom:12px;}
+  section ul{padding-left:20px; margin-bottom:12px;}
+  section li{margin-bottom:6px;}
+  section strong{color:var(--text); font-weight:600;}
+
+  table{width:100%; border-collapse:collapse; margin:16px 0 8px; font-size:13.5px;}
+  th, td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--panel-line); color:var(--dim);}
+  th{color:var(--text); font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase;}
+
+  .contact-box{
+    background:var(--panel); border:1px solid var(--panel-line);
+    padding:24px 22px; margin-top:8px;
+  }
+  .contact-box p{color:var(--text); font-size:14px; margin-bottom:6px;}
+  .contact-box .mono{color:var(--cyan);}
+
+  footer{
+    border-top:1px solid var(--panel-line); padding:36px 24px;
+    text-align:center; font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--dim);
+    letter-spacing:0.1em;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="back mono" href="./index.html">&larr; VOLTAR</a>
+  <span class="brand">Neon Raiders</span>
+</header>
+
+<main>
+  <div class="eyebrow">Documento legal</div>
+  <h1>Política de Privacidade</h1>
+  <p class="updated mono">Última atualização: <span id="hoje"></span></p>
+
+  <nav class="toc">
+    <span class="tag">// ÍNDICE</span>
+    <ol>
+      <li><a href="#coleta"><span class="n mono">01</span>Quais dados coletamos</a></li>
+      <li><a href="#uso"><span class="n mono">02</span>Como usamos os dados</a></li>
+      <li><a href="#terceiros"><span class="n mono">03</span>Compartilhamento com terceiros</a></li>
+      <li><a href="#armazenamento"><span class="n mono">04</span>Armazenamento e segurança</a></li>
+      <li><a href="#direitos"><span class="n mono">05</span>Seus direitos e exclusão de conta</a></li>
+      <li><a href="#criancas"><span class="n mono">06</span>Uso por crianças</a></li>
+      <li><a href="#mudancas"><span class="n mono">07</span>Alterações nesta política</a></li>
+      <li><a href="#contato"><span class="n mono">08</span>Contato</a></li>
+    </ol>
+  </nav>
+
+  <section id="coleta">
+    <h2>01. Quais dados coletamos</h2>
+    <p>Para criar sua conta e salvar seu progresso, o Neon Raiders coleta as seguintes informações através do Firebase (Google):</p>
+    <table>
+      <tr><th>Dado</th><th>Quando é coletado</th></tr>
+      <tr><td>E-mail</td><td>Ao criar conta com e-mail e senha</td></tr>
+      <tr><td>Nome e foto de perfil do Google</td><td>Ao entrar com "Login com Google"</td></tr>
+      <tr><td>Identificador único de usuário (UID)</td><td>Gerado automaticamente na criação da conta</td></tr>
+      <tr><td>Progresso de jogo (XP, nível, missões, conquistas)</td><td>Durante as partidas</td></tr>
+      <tr><td>Personalização de perfil (avatar, moldura, título selecionados)</td><td>Quando você altera seu perfil</td></tr>
+    </table>
+    <p>Não coletamos localização, contatos, câmera, microfone ou qualquer dado do dispositivo além do estritamente necessário para autenticação e salvamento de progresso.</p>
+  </section>
+
+  <section id="uso">
+    <h2>02. Como usamos os dados</h2>
+    <ul>
+      <li>Autenticar sua conta e permitir login em diferentes sessões;</li>
+      <li>Salvar e sincronizar seu progresso (nível, XP, missões, conquistas, itens desbloqueados);</li>
+      <li>Exibir seu perfil, avatar e título dentro do jogo;</li>
+      <li>Manter rankings e streaks diárias associados à sua conta.</li>
+    </ul>
+    <p><strong>Não usamos seus dados para publicidade.</strong> O Neon Raiders não exibe anúncios de terceiros e não possui compras dentro do app.</p>
+  </section>
+
+  <section id="terceiros">
+    <h2>03. Compartilhamento com terceiros</h2>
+    <p>Seus dados não são vendidos, alugados ou compartilhados com terceiros para fins de marketing.</p>
+    <p>Usamos o <strong>Firebase</strong> (Google Authentication e Realtime Database) exclusivamente como infraestrutura para armazenar e processar os dados descritos acima. O Google atua como operador desses dados sob suas próprias políticas de privacidade e segurança, disponíveis em <span class="mono">policies.google.com/privacy</span>.</p>
+    <p>Não utilizamos ferramentas de analytics, rastreamento de comportamento ou coleta de dados publicitários de terceiros.</p>
+  </section>
+
+  <section id="armazenamento">
+    <h2>04. Armazenamento e segurança</h2>
+    <p>Os dados ficam armazenados no Firebase Realtime Database, organizados por identificador único de usuário (UID), com regras de acesso que restringem escrita e leitura à própria conta autenticada.</p>
+    <p>Nenhuma senha é armazenada em texto simples — a autenticação é gerenciada inteiramente pelo Firebase Authentication, seguindo os padrões de segurança do Google.</p>
+  </section>
+
+  <section id="direitos">
+    <h2>05. Seus direitos e exclusão de conta</h2>
+    <p>Você pode, a qualquer momento:</p>
+    <ul>
+      <li>Solicitar uma cópia dos dados associados à sua conta;</li>
+      <li>Solicitar a correção de dados incorretos;</li>
+      <li>Solicitar a exclusão completa da sua conta e progresso salvo.</li>
+    </ul>
+    <p>Para exercer qualquer um desses direitos, entre em contato pelo canal listado na seção 08. Pedidos de exclusão são processados removendo permanentemente seus dados do Firebase Realtime Database e da autenticação.</p>
+  </section>
+
+  <section id="criancas">
+    <h2>06. Uso por crianças</h2>
+    <p>O Neon Raiders é um jogo de ação com temática de combate contra alienígenas e chefes, classificado para público geral, e não é direcionado especificamente a crianças menores de 13 anos. Não coletamos intencionalmente dados de menores dessa faixa etária sem consentimento dos responsáveis. Se você é pai, mãe ou responsável e acredita que uma criança forneceu dados pessoais sem sua autorização, entre em contato para solicitarmos a remoção.</p>
+  </section>
+
+  <section id="mudancas">
+    <h2>07. Alterações nesta política</h2>
+    <p>Esta política pode ser atualizada conforme o jogo evolui. Alterações significativas serão refletidas na data de "última atualização" no topo desta página.</p>
+  </section>
+
+  <section id="contato">
+    <h2>08. Contato</h2>
+    <div class="contact-box">
+      <p>Dúvidas sobre esta política ou solicitações relacionadas aos seus dados:</p>
+      <p class="mono">[suporteneonraiders@gmail.com]</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  NEON RAIDERS © <span id="year"></span> — TODOS OS SISTEMAS OPERACIONAIS
+  <br><a href="./index.html" style="color:var(--dim); text-decoration:underline;">Voltar para download</a>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  document.getElementById('hoje').textContent = new Date().toLocaleDateString('pt-BR', {day:'2-digit', month:'long', year:'numeric'});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neon Raiders — Baixe agora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#08070f;
+    --panel:#12101f;
+    --panel-line:#2a2440;
+    --magenta:#ff2d78;
+    --cyan:#35e8ff;
+    --amber:#ffb020;
+    --text:#e8e6f5;
+    --dim:#8b87a8;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--void);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  .display{font-family:'Rajdhani', sans-serif; font-weight:700; letter-spacing:0.02em;}
+
+  /* ===== HUD FRAME (signature element) ===== */
+  .hud-frame{
+    position:fixed; inset:0; pointer-events:none; z-index:50;
+  }
+  .hud-corner{
+    position:absolute; width:28px; height:28px;
+    border-color:var(--cyan); opacity:0.6;
+  }
+  .hud-corner.tl{top:14px; left:14px; border-top:2px solid; border-left:2px solid;}
+  .hud-corner.tr{top:14px; right:14px; border-top:2px solid; border-right:2px solid;}
+  .hud-corner.bl{bottom:14px; left:14px; border-bottom:2px solid; border-left:2px solid;}
+  .hud-corner.br{bottom:14px; right:14px; border-bottom:2px solid; border-right:2px solid;}
+  .hud-top-label{
+    position:absolute; top:18px; left:50%; transform:translateX(-50%);
+    font-size:11px; letter-spacing:0.35em; color:var(--dim);
+    display:flex; align-items:center; gap:10px;
+  }
+  .hud-top-label .dot{width:6px; height:6px; border-radius:50%; background:var(--magenta); animation:blink 2s infinite;}
+  @keyframes blink{0%,100%{opacity:1;} 50%{opacity:0.2;}}
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative; min-height:100svh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:80px 20px 60px;
+  }
+  #portal-canvas{
+    position:absolute; inset:0; width:100%; height:100%;
+    z-index:0; opacity:0.85;
+  }
+  .hero-content{position:relative; z-index:1; max-width:720px;}
+  .eyebrow{
+    font-size:12px; letter-spacing:0.4em; color:var(--cyan);
+    margin-bottom:18px; text-transform:uppercase;
+  }
+  .title{
+    font-size:clamp(48px, 11vw, 104px);
+    line-height:0.95;
+    text-transform:uppercase;
+    background:linear-gradient(135deg, #fff 10%, var(--cyan) 55%, var(--magenta) 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-shadow:0 0 60px rgba(255,45,120,0.25);
+  }
+  .tagline{
+    margin-top:18px; font-size:clamp(15px,2.4vw,19px); color:var(--dim);
+    max-width:520px; margin-left:auto; margin-right:auto; line-height:1.5;
+  }
+
+  .cta-row{
+    margin-top:38px; display:flex; flex-direction:column; align-items:center; gap:14px;
+  }
+  .btn-download{
+    position:relative;
+    display:inline-flex; align-items:center; gap:12px;
+    padding:18px 36px;
+    background:var(--magenta);
+    color:#0a0410;
+    font-family:'Rajdhani', sans-serif; font-weight:700; font-size:19px;
+    letter-spacing:0.06em; text-transform:uppercase;
+    text-decoration:none;
+    clip-path:polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+    box-shadow:0 0 0 1px rgba(255,45,120,0.4), 0 12px 40px -8px rgba(255,45,120,0.55);
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-download:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 0 1px var(--cyan), 0 16px 46px -8px rgba(53,232,255,0.5);
+  }
+  .btn-download svg{width:20px; height:20px; flex-shrink:0;}
+  .meta-row{
+    display:flex; gap:18px; flex-wrap:wrap; justify-content:center;
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--dim);
+  }
+  .meta-row span{display:flex; align-items:center; gap:6px;}
+  .meta-row .sep{color:var(--panel-line);}
+
+  .scroll-cue{
+    position:absolute; bottom:30px; left:50%; transform:translateX(-50%);
+    font-size:10px; letter-spacing:0.3em; color:var(--dim);
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    z-index:1;
+  }
+  .scroll-cue .line{width:1px; height:28px; background:linear-gradient(var(--cyan), transparent); animation:scrolldown 1.8s infinite;}
+  @keyframes scrolldown{0%{opacity:0; transform:translateY(-6px);} 50%{opacity:1;} 100%{opacity:0; transform:translateY(10px);}}
+
+  /* ===== STAT TICKER ===== */
+  .ticker-wrap{
+    border-top:1px solid var(--panel-line); border-bottom:1px solid var(--panel-line);
+    background:var(--panel);
+    padding:16px 0; overflow:hidden; white-space:nowrap;
+  }
+  .ticker{
+    display:inline-flex; gap:48px; animation:ticker 26s linear infinite;
+    font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--dim);
+  }
+  .ticker span b{color:var(--cyan); font-weight:500;}
+  @keyframes ticker{from{transform:translateX(0);} to{transform:translateX(-50%);}}
+
+  /* ===== SECTIONS ===== */
+  section{padding:100px 24px; max-width:1080px; margin:0 auto;}
+  .section-head{margin-bottom:52px; text-align:center;}
+  .section-eyebrow{font-size:12px; letter-spacing:0.35em; color:var(--magenta); margin-bottom:10px; text-transform:uppercase;}
+  .section-title{font-size:clamp(28px,5vw,42px); text-transform:uppercase;}
+
+  .feature-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr)); gap:1px;
+    background:var(--panel-line); border:1px solid var(--panel-line);
+  }
+  .feature-card{
+    background:var(--void); padding:32px 26px; position:relative;
+  }
+  .feature-card .tag{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--cyan); letter-spacing:0.15em;
+  }
+  .feature-card h3{
+    font-family:'Rajdhani', sans-serif; font-weight:700; font-size:22px;
+    margin:10px 0 8px; text-transform:uppercase; letter-spacing:0.02em;
+  }
+  .feature-card p{font-size:14px; color:var(--dim); line-height:1.6;}
+
+  /* ===== INSTALL STEPS ===== */
+  .install-panel{
+    background:var(--panel); border:1px solid var(--panel-line);
+    padding:8px;
+  }
+  .step{
+    display:flex; gap:20px; align-items:flex-start;
+    padding:22px 20px; border-bottom:1px solid var(--panel-line);
+  }
+  .step:last-child{border-bottom:none;}
+  .step-num{
+    font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--void);
+    background:var(--cyan); width:28px; height:28px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
+  }
+  .step-body h4{font-family:'Rajdhani',sans-serif; font-weight:600; font-size:17px; margin-bottom:4px;}
+  .step-body p{font-size:14px; color:var(--dim); line-height:1.55;}
+  .warn-box{
+    margin-top:22px; padding:16px 18px; border:1px solid rgba(255,176,32,0.4);
+    background:rgba(255,176,32,0.06); display:flex; gap:12px; align-items:flex-start;
+  }
+  .warn-box svg{width:18px; height:18px; flex-shrink:0; color:var(--amber); margin-top:2px;}
+  .warn-box p{font-size:13px; color:var(--dim); line-height:1.6;}
+  .warn-box strong{color:var(--amber); font-weight:600;}
+
+  footer{
+    border-top:1px solid var(--panel-line); padding:40px 24px;
+    text-align:center; font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--dim);
+    letter-spacing:0.1em;
+  }
+</style>
+</head>
+<body>
+
+<div class="hud-frame">
+  <div class="hud-corner tl"></div>
+  <div class="hud-corner tr"></div>
+  <div class="hud-corner bl"></div>
+  <div class="hud-corner br"></div>
+  <div class="hud-top-label"><span class="dot"></span>TRANSMISSÃO ATIVA // SETOR NEON</div>
+</div>
+
+<section class="hero">
+  <canvas id="portal-canvas"></canvas>
+  <div class="hero-content">
+    <div class="eyebrow">Bullet-hell // mobile</div>
+    <h1 class="title">Neon Raiders</h1>
+    <p class="tagline">Atravesse o portal, sobreviva à saraivada de tiros e domine cada bioma. Instale agora e entre na batalha.</p>
+    <div class="cta-row">
+      <a href="./neon-raiders.apk" download class="btn-download" id="dl-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
+        Baixar APK
+      </a>
+      <div class="meta-row">
+        <span id="ver">v1.0.0</span>
+        <span class="sep">/</span>
+        <span id="size">— MB</span>
+        <span class="sep">/</span>
+        <span>Android 8.0+</span>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span class="line"></span>ROLAR</div>
+</section>
+
+<div class="ticker-wrap">
+  <div class="ticker mono">
+    <span>BIOMAS: <b>6 ATIVOS</b></span>
+    <span>CHEFES: <b>12 DERROTÁVEIS</b></span>
+    <span>MODO: <b>SOBREVIVÊNCIA</b></span>
+    <span>STREAK DIÁRIA: <b>ATIVA</b></span>
+    <span>PLATAFORMA: <b>ANDROID</b></span>
+    <span>BIOMAS: <b>6 ATIVOS</b></span>
+    <span>CHEFES: <b>12 DERROTÁVEIS</b></span>
+    <span>MODO: <b>SOBREVIVÊNCIA</b></span>
+    <span>STREAK DIÁRIA: <b>ATIVA</b></span>
+    <span>PLATAFORMA: <b>ANDROID</b></span>
+  </div>
+</div>
+
+<section>
+  <div class="section-head">
+    <div class="section-eyebrow">O que te espera</div>
+    <h2 class="section-title">Sistemas de combate</h2>
+  </div>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="tag">// PADRÕES</div>
+      <h3>Saraivadas densas</h3>
+      <p>Dezenas de padrões de projéteis sincronizados, cada bioma com sua própria coreografia de fogo.</p>
+    </div>
+    <div class="feature-card">
+      <div class="tag">// PROGRESSÃO</div>
+      <h3>Missões & recompensas</h3>
+      <p>Sistema de missões com gatilhos por abates, chefes e coleta, além de streaks diárias de login.</p>
+    </div>
+    <div class="feature-card">
+      <div class="tag">// IDENTIDADE</div>
+      <h3>Perfil & conquistas</h3>
+      <p>Avatares, molduras e títulos desbloqueáveis conforme você avança pelo ranking.</p>
+    </div>
+    <div class="feature-card">
+      <div class="tag">// ÁUDIO</div>
+      <h3>Trilha por bioma</h3>
+      <p>Áudio sintetizado que muda de acordo com o setor em que você está lutando.</p>
+    </div>
+  </div>
+</section>
+
+<section id="instalar">
+  <div class="section-head">
+    <div class="section-eyebrow">Instalação</div>
+    <h2 class="section-title">Como instalar o APK</h2>
+  </div>
+  <div class="install-panel">
+    <div class="step">
+      <div class="step-num mono">1</div>
+      <div class="step-body">
+        <h4>Baixe o arquivo</h4>
+        <p>Toque em "Baixar APK" no topo da página. O download começa direto pelo navegador.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num mono">2</div>
+      <div class="step-body">
+        <h4>Permita instalação de fontes desconhecidas</h4>
+        <p>Ao abrir o arquivo baixado, o Android vai pedir permissão. Vá em Configurações → Segurança (ou aparecerá um aviso na hora) e autorize a instalação para o navegador ou gerenciador de arquivos usado.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num mono">3</div>
+      <div class="step-body">
+        <h4>Instale e abra</h4>
+        <p>Toque em "Instalar" e, ao finalizar, abra o Neon Raiders direto pelo ícone criado na tela inicial.</p>
+      </div>
+    </div>
+  </div>
+  <div class="warn-box">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.29 3.86l-8.18 14.18A2 2 0 004 21h16a2 2 0 001.89-2.96L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+    <p><strong>Aviso normal do Android:</strong> como o app não vem da Play Store, o sistema exibe um alerta de segurança padrão. Isso não significa que o app é malicioso — é o comportamento esperado para qualquer APK instalado fora da loja.</p>
+  </div>
+</section>
+
+<footer>
+  NEON RAIDERS © <span id="year"></span> — TODOS OS SISTEMAS OPERACIONAIS
+  <br><a href="./privacidade.html" style="color:var(--dim); text-decoration:underline;">Política de Privacidade</a>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// ===== Portal canvas animation (hero background) =====
+const canvas = document.getElementById('portal-canvas');
+const ctx = canvas.getContext('2d');
+let w, h, dpr;
+function resize(){
+  dpr = Math.min(window.devicePixelRatio || 1, 2);
+  w = canvas.offsetWidth; h = canvas.offsetHeight;
+  canvas.width = w * dpr; canvas.height = h * dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+window.addEventListener('resize', resize);
+resize();
+
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const particles = Array.from({length: reduceMotion ? 0 : 90}, () => ({
+  angle: Math.random()*Math.PI*2,
+  radius: 40 + Math.random()*380,
+  speed: 0.0015 + Math.random()*0.003,
+  size: 0.6 + Math.random()*1.8,
+  hueShift: Math.random()
+}));
+
+let t = 0;
+function draw(){
+  t += 1;
+  ctx.clearRect(0,0,w,h);
+  const cx = w/2, cy = h*0.42;
+
+  // portal rings
+  for(let i=0;i<4;i++){
+    const rr = 60 + i*46 + Math.sin(t*0.01 + i)*6;
+    ctx.beginPath();
+    ctx.arc(cx, cy, rr, 0, Math.PI*2);
+    const alpha = 0.10 - i*0.018;
+    ctx.strokeStyle = i%2===0 ? `rgba(53,232,255,${Math.max(alpha,0.02)})` : `rgba(255,45,120,${Math.max(alpha,0.02)})`;
+    ctx.lineWidth = 1.4;
+    ctx.stroke();
+  }
+
+  // particles orbiting
+  particles.forEach(p => {
+    p.angle += p.speed;
+    const x = cx + Math.cos(p.angle) * p.radius;
+    const y = cy + Math.sin(p.angle) * p.radius * 0.55;
+    const depth = (Math.sin(p.angle)+1)/2;
+    const alpha = 0.15 + depth*0.5;
+    const color = p.hueShift > 0.5 ? '53,232,255' : '255,45,120';
+    ctx.beginPath();
+    ctx.arc(x, y, p.size * (0.6+depth), 0, Math.PI*2);
+    ctx.fillStyle = `rgba(${color},${alpha})`;
+    ctx.fill();
+  });
+
+  // vignette gradient fade to bg at bottom
+  const grad = ctx.createLinearGradient(0, h*0.6, 0, h);
+  grad.addColorStop(0, 'rgba(8,7,15,0)');
+  grad.addColorStop(1, 'rgba(8,7,15,1)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, h*0.6, w, h*0.4);
+
+  if(!reduceMotion) requestAnimationFrame(draw);
+}
+draw();
+
+// ===== Placeholder file size lookup (updates once APK is added) =====
+fetch('./neon-raiders.apk', {method:'HEAD'}).then(res=>{
+  if(res.ok){
+    const len = res.headers.get('content-length');
+    if(len){
+      document.getElementById('size').textContent = (parseInt(len)/1024/1024).toFixed(1) + ' MB';
+    }
+  }
+}).catch(()=>{});
+</script>
+
+</body>
+</html>
